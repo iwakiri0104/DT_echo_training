@@ -1,0 +1,46 @@
+<!doctype html>
+{{define "index"}}
+<html lang="ja">
+{{template "header"}}
+<div class="container ">
+    <div class="row">
+        <div class="col">
+            <!--一新規投稿処理 開始-->
+            <form action="/store" method="post" class="form-example">
+                <div class="mb-3 pt-5">
+                    <h5>  <p class="text-center">投稿</p></h5>
+                    <input type="text" class="form-control" name="title" placeholder="タイトルを入力してください">
+                </div>
+                <div class="mb-3">
+                    <textarea class="form-control" name="content" rows="3"></textarea>
+                </div>
+                <input class="btn btn-outline-secondary" type="submit" value="投稿">
+            </form>
+            <!--一新規投稿処理　終了-->
+            <!--一覧表示 開始-->
+            {{range .}}
+            <div class="card my-4">
+                <div class="card-header ">
+                    {{ .Title}}
+                </div>
+                <div class="card-body">
+                    <p class="fs-6">投稿時間:{{ .CreatedAt }}</p>
+                    {{ .Content }}
+                    <p class="card-text"></p>
+                    <form method="GET" action="/edit/{{.ID}}">
+                        <input type="hidden" name="_method" value="GET">
+                        <button type="submit" class="btn btn-primary">編集</button>
+                    </form>
+                    <form method="POST" action="/delete/{{.ID}}">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button type="submit" class="btn btn-primary">削除</button>
+                    </form>
+                </div>
+            </div>
+            {{end}}
+            <!--一覧表示 終了-->
+        </div>
+    </div>
+</div>
+{{template "footer"}}
+{{end}}

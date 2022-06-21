@@ -1,9 +1,9 @@
 package main
 
 import (
-	"app/src/infrastructure/routing"
+	"app/src/controller"
 )
 
 func main() {
-	routing.Init()
+	controller.Init()
 }

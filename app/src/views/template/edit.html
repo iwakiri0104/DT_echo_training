@@ -1,0 +1,25 @@
+{{define "edit"}}
+<html lang="en">
+{{template "header"}}
+<div class="container">
+    <div class="row">
+        <div class="col mt-5">
+            <h2>編集画面</h2>
+            <!--一新規投稿処理 開始-->
+            <form action="/update/{{.ID}}" method="POST" class="form-example">
+                <input type="hidden" name="_method" value="PUT">
+                <div class="mb-3">
+                    <input type="text" class="form-control" name="title" value="{{.Title}}">
+                </div>
+                <div class="mb-3">
+                    <textarea class="form-control" name="content" rows="3">{{.Content}}</textarea>
+                </div>
+                <input class="btn btn-outline-secondary" type="submit" value="更新">
+            </form>
+            <!--一新規投稿処理　終了-->
+        </div>
+    </div>
+    <button class="btn btn-primary" onclick="history.back(-1)">戻る</button>
+</div>
+{{template "footer"}}
+{{end}}
