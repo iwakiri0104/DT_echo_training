@@ -6,6 +6,9 @@ import (
 	"net/http"
 )
 
+//dbを引数にしてserver.goで(db)を渡してあげる。server.goに１行書く
+//引数で渡すとコード処理がコンパクトになる
+
 var articles []models.Article
 
 //メソッド対応処理

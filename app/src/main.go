@@ -5,5 +5,9 @@ import (
 )
 
 func main() {
-	controller.Init()
+	e := controller.Init()
+
+	SetStaticRoute(e)
+	// start server
+	e.Logger.Fatal(e.Start(":8080"))
 }

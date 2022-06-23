@@ -16,7 +16,7 @@ func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Con
 	return t.templates.ExecuteTemplate(w, name, data)
 }
 
-func Init() {
+func Init() *echo.Echo {
 
 	list, err := template.New("t").ParseGlob("views/template/*.html")
 
@@ -45,7 +45,6 @@ func Init() {
 	e.PUT("/update/:id", Update)
 	e.DELETE("/delete/:id", Delete)
 
-	// start server
-	e.Logger.Fatal(e.Start(":8080"))
+	return e
 
 }
