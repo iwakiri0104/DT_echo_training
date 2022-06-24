@@ -3,11 +3,9 @@ package controller
 import (
 	"app/src/models"
 	"github.com/labstack/echo/v4"
+	"gorm.io/gorm"
 	"net/http"
 )
-
-//dbを引数にしてserver.goで(db)を渡してあげる。server.goに１行書く
-//引数で渡すとコード処理がコンパクトになる
 
 var articles []models.Article
 
@@ -25,51 +23,56 @@ func MethodOverride(next echo.HandlerFunc) echo.HandlerFunc {
 }
 
 //一覧表示
-func Index(c echo.Context) error {
-	db := models.DatabaseConnection()
-	db.Order("id desc").Find(&articles)
-	return c.Render(http.StatusOK, "index", articles)
+func Index(db *gorm.DB) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		db.Order("id desc").Find(&articles)
+		return c.Render(http.StatusOK, "index", articles)
+	}
 }
 
 //新規投稿処理
-func Store(c echo.Context) error {
-	title := c.FormValue("title")
-	content := c.FormValue("content")
-	db := models.DatabaseConnection()
-	article := models.Article{Title: title, Content: content}
-	db.Create(&article)
-	return c.Redirect(http.StatusFound, "/")
+func Store(db *gorm.DB) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		title := c.FormValue("title")
+		content := c.FormValue("content")
+		article := models.Article{Title: title, Content: content}
+		db.Create(&article)
+		return c.Redirect(http.StatusFound, "/")
+	}
 }
 
 //編集画面表示
-func Edit(c echo.Context) error {
-	var article models.Article
-	id := c.Param("id")
-	db := models.DatabaseConnection()
-	db.First(&article, id)
-	return c.Render(http.StatusOK, "edit", article)
+func Edit(db *gorm.DB) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		var article models.Article
+		id := c.Param("id")
+		db.First(&article, id)
+		return c.Render(http.StatusOK, "edit", article)
+	}
 }
 
 //更新処理
-func Update(c echo.Context) error {
-	var article models.Article
-	db := models.DatabaseConnection()
-	id := c.Param("id")
-	db.First(&article, id)
-	title := c.FormValue("title")
-	content := c.FormValue("content")
-	article.Title = title
-	article.Content = content
-	db.Save(&article)
-	return c.Redirect(http.StatusFound, "/")
+func Update(db *gorm.DB) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		var article models.Article
+		id := c.Param("id")
+		db.First(&article, id)
+		title := c.FormValue("title")
+		content := c.FormValue("content")
+		article.Title = title
+		article.Content = content
+		db.Save(&article)
+		return c.Redirect(http.StatusFound, "/")
+	}
 }
 
 //削除処理
-func Delete(c echo.Context) error {
-	var article models.Article
-	db := models.DatabaseConnection()
-	id := c.Param("id")
-	db.First(&article, id)
-	db.Delete(&article)
-	return c.Redirect(http.StatusFound, "/")
+func Delete(db *gorm.DB) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		var article models.Article
+		id := c.Param("id")
+		db.First(&article, id)
+		db.Delete(&article)
+		return c.Redirect(http.StatusFound, "/")
+	}
 }
