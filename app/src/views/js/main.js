@@ -1,9 +1,6 @@
 const textarea = document.getElementById('textarea');
 const title = document.getElementById('title');
 const submit = document.getElementById('btn');
-const errMsgTitle = document.querySelector('.err-msg-title');
-const errMsgContent = document.querySelector('.err-msg-content');
-
 
 /*文字数制限アラート　タイトル*/
 title.addEventListener('keyup', (e) => {
@@ -17,7 +14,8 @@ title.addEventListener('keyup', (e) => {
     }
     ;
 });
-/*文字数制限アラート　文章*/
+
+/*文字数制限アラート　内容*/
 textarea.addEventListener('keyup', (e) => {
     if (e.target.value.length > 300) {
         alert("300文字以内でお願いします");
@@ -36,25 +34,25 @@ function viewStrLen() {
     document.getElementById("strLen").innerText = len + "文字";
 }
 
-/*ラジオボタン*/
-const btn_id = document.getElementById("btn_id")
+/*ラジオボタンアクション*/
+const btn_form = document.getElementById("target")
+const btn_id = document.getElementById('btn_id');
 btn_id.addEventListener("click", () => {
     let btnParent = btn_id.parentNode
-    if (btn_id.checked) {
+    if (btn_form.checked) {
         btnParent.style.backgroundColor = "#DBF1F4"
     }
 })
 
-
-//イベントリスナーでid属性に対して処理してる
-//idは1つしかもてない
-//idを全部違うやつをつける
-//クラスの名前を同じにすれば
-
+/*バリデーション*/
 window.addEventListener('DOMContentLoaded', () => {
-    // 「送信」ボタンの要素にクリックイベントを設定する
+    //エラーメッセージ
+    const errMsgTitle = document.querySelector('.err-msg-title');
+    const errMsgContent = document.querySelector('.err-msg-content');
+
+    // 「投稿」ボタンの要素にクリックイベントを設定
     submit.addEventListener('click', (e) => {
-        // 入力欄の空欄チェック
+        // タイトル入力欄の空欄チェック
         if (!title.value) {
             // デフォルトアクションをキャンセル
             e.preventDefault();
@@ -62,6 +60,7 @@ window.addEventListener('DOMContentLoaded', () => {
             errMsgTitle.textContent = '・タイトルは必須です';
             title.classList.add('input-invalid');
         }
+        // 内容入力欄の空欄チェック
         if (!textarea.value) {
             e.preventDefault();
             errMsgContent.classList.add('form-invalid');
@@ -81,6 +80,7 @@ window.addEventListener('DOMContentLoaded', () => {
 }, false);
 
 
+/*マウスオーバーリアクション*/
 function closePopUp() {
     fukidashi.style.display = "none";
 }
