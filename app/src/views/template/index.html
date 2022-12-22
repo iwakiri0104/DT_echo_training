@@ -1,55 +1,5 @@
 <!doctype html>
 {{define "index"}}
 <html lang="ja">
-{{template "header"}}
-<div class="container ">
-    <div class="row">
-        <div class="col">
-            <!--一新規投稿処理 開始-->
-            <form action="/store" method="post" class="form-example">
-                <div class="mb-3 pt-5">
-                    <h5><p class="text-center">投稿</p></h5>
-                    <div class="err-msg-title"></div>
-                    <input type="text" id="title" class="form-control" name="title" placeholder="タイトルを入力してください">
-                </div>
-                <div class="mb-3">
-                    <div class="err-msg-content"></div>
-                    <textarea id="textarea" class="form-control" name="content" rows="3"
-                              onkeyup="viewStrLen();"></textarea>
-                    <div id="strLen">0文字</div>
-                </div>
-                <input class="btn btn-outline-secondary" type="submit" id="btn" value="投稿">
-            </form>
-            <hr>
-            <!--一新規投稿処理　終了-->
-            <!--一覧表示 開始-->
-            {{range .}}
-            <div class="card my-4">
-                <div class="btn_box">
-                    <div class="card-header ">
-                        <form id="target">
-                        <input class="btn" id="btn_id" type="radio">
-                        <p>{{ .Title}}</p>
-                        </form>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <p class="fs-6">投稿時間:{{ .CreatedAt }}</p>
-                    {{ .Content }}
-                    <p class="card-text"></p>
-                    <form method="GET" action="/edit/{{.ID}}">
-                        <button type="submit" class="btn btn-primary">編集</button>
-                    </form>
-                    <form method="POST" action="/delete/{{.ID}}">
-                        <input type="hidden" name="_method" value="DELETE">
-                        <button type="submit" class="btn btn-primary">削除</button>
-                    </form>
-                </div>
-            </div>
-            {{end}}
-            <!--一覧表示 終了-->
-        </div>
-    </div>
-</div>
-{{template "footer"}}
+<h1>Index</h1>
 {{end}}

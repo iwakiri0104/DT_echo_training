@@ -37,14 +37,10 @@ func Init() *echo.Echo {
 
 	//自動マイグレーション
 	models.Init()
-	
-	db := models.DatabaseConnection()
+
+	//db := models.DatabaseConnection()
 	//router
-	e.GET("/", Index(db))
-	e.POST("/store", Store(db))
-	e.GET("/edit/:id", Edit(db))
-	e.PUT("/update/:id", Update(db))
-	e.DELETE("/delete/:id", Delete(db))
+	e.GET("/", Index)
 
 	return e
 
