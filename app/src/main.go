@@ -1,13 +1,16 @@
 package main
 
 import (
-	"app/src/controller"
+	"github.com/labstack/echo/v4"
+	"net/http"
 )
 
 func main() {
-	e := controller.Init()
+	e := echo.New()
 
-	SetStaticRoute(e)
-	// start server
-	e.Logger.Fatal(e.Start(":8080"))
+	e.GET("/", func(c echo.Context) error {
+		return c.String(http.StatusOK, "Hello World")
+	})
+
+	e.Start(":8080")
 }
